@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Neura Coin - Futuristic AI-Powered Crypto</title>
-  <!-- Three.js for 3D visuals -->
+  <!-- Three.js for 3D animations and WebGL visuals -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- A-Frame for AR/WebVR (optional for AR sections) -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- Web3.js for wallet connectivity -->
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
   <style>
-    /* Reset & Base Styles */
+    /* Base Styles: Dark Cyberpunk UI with Neon Highlights */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
       color: #fff;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
-    a { text-decoration: none; }
+    a { color: #ff7b00; text-decoration: none; }
     
-    /* Navigation Bar */
+    /* Navigation */
     nav {
       position: fixed;
       top: 0;
@@ -28,403 +28,436 @@
       background: rgba(0,0,0,0.85);
       padding: 10px 0;
       z-index: 1000;
-      text-align: center;
-      font-size: 1em;
-    }
-    nav a {
-      margin: 0 15px;
-      color: #ff7b00;
-      font-weight: bold;
-      transition: color 0.3s;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
     nav a:hover { color: #e66a00; }
+
+    /* Liquid Button Animation */
+    .btn {
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #ff7b00, #e66a00);
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: linear-gradient(45deg, #e66a00, #ff7b00); }
+
+    /* Sections */
+    section { padding: 80px 20px; margin-top: 60px; text-align: center; }
     
-    /* Hero Section */
+    /* Hero Section: 3D Animated Neura Coin & AI Brain */
     .hero {
       position: relative;
       height: 100vh;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      background: url('https://source.unsplash.com/1600x900/?technology,neural') no-repeat center center/cover;
+      align-items: center;
+      background: #111;
     }
-    .hero-overlay {
-      position: absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.6);
-      z-index: 1;
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 20px;
-      animation: fadeIn 2s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .hero h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    }
-    .hero p {
-      font-size: 1.5em;
-      margin-bottom: 30px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-    }
-    .cta-buttons .btn {
-      padding: 12px 24px;
-      background: #ff7b00;
-      color: #fff;
-      border-radius: 5px;
-      margin: 10px;
-      transition: background 0.3s, transform 0.3s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-    .cta-buttons .btn:hover {
-      background: #e66a00;
-      transform: scale(1.05);
-    }
-    #three-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
+    .hero canvas { position: absolute; top: 0; left: 0; }
+    .hero-content { position: relative; z-index: 2; }
     
-    /* Section Styles */
-    section {
-      padding: 60px 20px;
-      margin: 40px auto;
-      max-width: 1200px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    /* Dashboard */
+    .dashboard {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
-    h2 {
-      margin-bottom: 20px;
-      color: #ff7b00;
-      font-size: 2em;
-    }
-    p { margin-bottom: 15px; line-height: 1.6; }
-    
-    /* Live Dashboard */
-    .dashboard { display: flex; justify-content: center; flex-wrap: wrap; }
     .dashboard .metric {
       background: rgba(255,255,255,0.1);
-      border-radius: 10px;
       padding: 20px;
-      margin: 10px;
-      min-width: 150px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-    .dashboard .metric:hover {
-      transform: scale(1.05);
+      border-radius: 10px;
+      width: 200px;
     }
     
-    /* Calculator, Governance, Trivia */
-    .calculator, .governance, .trivia {
+    /* Subscription Form */
+    .subscription { margin-top: 20px; }
+    .subscription input[type="email"] {
+      padding: 10px; width: 250px;
+      border: none; border-radius: 5px; margin-right: 10px;
+    }
+    
+    /* Airdrop & Referral Section */
+    .airdrop, .referral { margin: 40px 0; }
+    .airdrop form, .referral form {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-    .calculator input, .governance input, .trivia input {
-      padding: 10px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      width: 220px;
-    }
-    .calculator button, .governance button, .trivia button {
-      padding: 10px 20px;
-      background: #ff7b00;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-      margin-top: 10px;
-    }
-    .calculator button:hover, .governance button:hover, .trivia button:hover {
-      background: #e66a00;
-      transform: scale(1.05);
+      gap: 10px;
     }
     
-    /* Terminal Section */
-    .terminal {
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-      padding: 20px;
-      border-radius: 5px;
-      height: 200px;
-      overflow-y: auto;
-      box-shadow: inset 0 0 10px #0f0;
-    }
-    
-    /* Avatars Section */
-    .avatars {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .avatars img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin: 10px;
-      border: 3px solid #ff7b00;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .avatars img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 10px rgba(255,123,0,0.7);
-    }
-    
-    /* AR Section */
-    .ar-section {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .ar-section iframe {
-      width: 100%;
-      height: 400px;
-      border: none;
+    /* Chatbot Popup */
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.85);
+      border: 2px solid #ff7b00;
       border-radius: 10px;
+      width: 300px;
+      max-height: 400px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1100;
+    }
+    .chatbot-header {
+      background: #ff7b00;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .chatbot-body {
+      padding: 10px;
+      flex: 1;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .chatbot-input {
+      border-top: 1px solid #555;
+      display: flex;
+    }
+    .chatbot-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    .chatbot-input button {
+      padding: 10px;
+      background: #e66a00;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+    }
+    
+    /* Roadmap with Scroll Animation */
+    .roadmap { position: relative; overflow: hidden; }
+    .roadmap ul { list-style: none; padding: 0; }
+    .roadmap li {
+      padding: 20px;
+      margin: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.6s ease-out;
+    }
+    .roadmap li.visible { transform: translateY(0); opacity: 1; }
+    
+    /* Wallet Connection Button */
+    .wallet-btn { margin-top: 20px; }
+    
+    /* Holographic-Style Floating Panel */
+    .holo-panel {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,123,0,0.5);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 0 15px rgba(255,123,0,0.5);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
     }
     
     /* Responsive */
     @media (max-width: 768px) {
-      nav a { margin: 0 10px; font-size: 0.9em; }
-      .hero h1 { font-size: 2em; }
-      .hero p { font-size: 1.2em; }
-      .dashboard .metric { min-width: 120px; }
+      nav { flex-wrap: wrap; }
+      .dashboard .metric { width: 150px; }
     }
     
     footer {
       background: #111;
       padding: 20px;
       text-align: center;
-      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
+
   <!-- Navigation -->
   <nav>
     <a href="#hero">Home</a>
     <a href="#dashboard">Dashboard</a>
-    <a href="#calculator">Calculator</a>
-    <a href="#terminal">Terminal</a>
-    <a href="#trivia">Trivia</a>
-    <a href="#avatars">Avatars</a>
-    <a href="#governance">Governance</a>
-    <a href="#ar">AR View</a>
+    <a href="#airdrop">Airdrop</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#chatbot-toggle" id="chatbot-toggle">Support</a>
   </nav>
 
-  <!-- Hero Section with 3D Animated Background -->
+  <!-- Hero Section: 3D Animated Neura Coin and Rotating AI Brain -->
   <header id="hero" class="hero">
-    <canvas id="three-canvas"></canvas>
-    <div class="hero-overlay"></div>
+    <!-- 3D Animated Neura Coin -->
+    <canvas id="coin-canvas"></canvas>
+    <!-- Interactive AI Brain Visualization -->
+    <canvas id="brain-canvas" style="position:absolute; top:0; left:0;"></canvas>
     <div class="hero-content">
-      <h1>The Future of AI-Powered Crypto Mining is Here!</h1>
-      <p>Neura Coin (NEURA) – A next-gen cryptocurrency powered by AI-driven neural networks.</p>
-      <div class="cta-buttons">
-        <a href="#dashboard" class="btn">Dashboard</a>
-        <a href="#trivia" class="btn">Join Trivia</a>
+      <h1>Neura Coin - Futuristic AI-Powered Crypto</h1>
+      <p>Experience the revolution in mining with advanced AI & neural network visuals.</p>
+      <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+      <div class="subscription">
+        <input type="email" id="email" placeholder="Enter your email for updates">
+        <button class="btn" onclick="subscribeEmail()">Subscribe</button>
       </div>
     </div>
   </header>
 
-  <!-- Live Dashboard Section -->
-  <section id="dashboard" class="dashboard">
-    <h2>Live Crypto Dashboard</h2>
-    <div class="metric">
-      <h3>Price</h3>
-      <p id="price">$0.00</p>
-    </div>
-    <div class="metric">
-      <h3>Mining Power</h3>
-      <p id="mining-power">0 TH/s</p>
-    </div>
-    <div class="metric">
-      <h3>Total Supply</h3>
-      <p id="total-supply">0 NEURA</p>
+  <!-- AI-Powered Dashboard -->
+  <section id="dashboard">
+    <h2>AI-Powered Dashboard</h2>
+    <div class="dashboard">
+      <div class="metric holo-panel">
+        <h3>Live Price</h3>
+        <p id="live-price">$0.00</p>
+      </div>
+      <div class="metric holo-panel">
+        <h3>Mining Stats</h3>
+        <p id="mining-stats">0 TH/s</p>
+      </div>
+      <div class="metric holo-panel">
+        <h3>Total Supply</h3>
+        <p id="total-supply">0 NEURA</p>
+      </div>
     </div>
   </section>
 
-  <!-- Investment Calculator Section -->
-  <section id="calculator" class="calculator">
-    <h2>AI-Powered Investment Calculator</h2>
-    <p>Estimate your potential mining earnings:</p>
-    <input type="number" id="mining-hours" placeholder="Mining Hours" min="1">
-    <input type="number" id="mining-power-input" placeholder="Mining Power (TH/s)" min="1">
-    <button onclick="calculateEarnings()">Calculate Earnings</button>
-    <p id="calculator-result"></p>
+  <!-- Engaging Airdrop & Referral System -->
+  <section id="airdrop">
+    <h2>Airdrop & Referral</h2>
+    <form onsubmit="handleAirdrop(event)">
+      <input type="text" id="referral-code" placeholder="Enter Referral Code">
+      <button class="btn" type="submit">Claim Airdrop</button>
+    </form>
   </section>
 
-  <!-- Live Blockchain Terminal Section -->
-  <section id="terminal" class="terminal">
+  <!-- Dynamic Roadmap with Scroll Animation -->
+  <section id="roadmap" class="roadmap">
+    <h2>Dynamic Roadmap</h2>
+    <ul>
+      <li>Q2 2025 - Token Launch & Airdrop</li>
+      <li>Q3 2025 - Neura Coin App Release</li>
+      <li>Q4 2025 - Staking & DeFi Integration</li>
+      <li>2026 - Global Adoption & Metaverse Integration</li>
+    </ul>
+  </section>
+
+  <!-- Holographic-Style Floating Panel -->
+  <section>
+    <div class="holo-panel">
+      <h2>Exclusive Staking Rewards</h2>
+      <p>Stake NEURA for high APY rewards and unlock exclusive bonuses!</p>
+    </div>
+  </section>
+
+  <!-- Interactive AI Chatbot Popup -->
+  <div class="chatbot" id="chatbot">
+    <div class="chatbot-header" onclick="toggleChatbot()">Support Chat (Click to Toggle)</div>
+    <div class="chatbot-body" id="chatbot-body">
+      <p>Hello! Ask me anything about Neura Coin.</p>
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbot-input" placeholder="Type your message">
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </div>
+
+  <!-- AI-Powered Personalized UI Placeholder -->
+  <section id="personalized" class="holo-panel">
+    <h2>Welcome, [User]!</h2>
+    <p>This interface adapts to your preferences in real-time.</p>
+  </section>
+
+  <!-- Live Blockchain Terminal Simulation -->
+  <section id="terminal" class="holo-panel" style="text-align:left;">
     <h2>Live Blockchain Terminal</h2>
-    <div id="terminal-log"></div>
+    <div id="terminal-log" style="height:150px; overflow-y: auto; background: #000; padding: 10px; border-radius: 5px;"></div>
   </section>
 
-  <!-- Trivia Quiz Section -->
-  <section id="trivia" class="trivia">
-    <h2>AI-Powered Trivia & Challenges</h2>
-    <p>Test your crypto knowledge and win bonus NEURA tokens!</p>
-    <input type="text" id="trivia-answer" placeholder="Your Answer">
-    <button onclick="checkTrivia()">Submit Answer</button>
-    <p id="trivia-feedback"></p>
-  </section>
-
-  <!-- Collectible Avatars Section -->
-  <section id="avatars" class="avatars">
-    <h2>Neura Coin Collectible Avatars</h2>
-    <p>Discover unique, AI-generated avatars:</p>
-    <img src="https://source.unsplash.com/collection/895539/120x120" alt="Avatar 1">
-    <img src="https://source.unsplash.com/collection/895539/121x121" alt="Avatar 2">
-    <img src="https://source.unsplash.com/collection/895539/122x122" alt="Avatar 3">
-    <img src="https://source.unsplash.com/collection/895539/123x123" alt="Avatar 4">
-  </section>
-
-  <!-- Governance / Voting Section -->
-  <section id="governance" class="governance">
-    <h2>Blockchain Governance</h2>
-    <p>Vote on proposals to shape the future of Neura Coin:</p>
-    <input type="text" id="proposal" placeholder="Enter your proposal">
-    <button onclick="submitVote()">Submit Proposal</button>
-    <p id="governance-feedback"></p>
-  </section>
-
-  <!-- AR Section (Optional: Embeds an A-Frame Scene) -->
-  <section id="ar" class="ar-section">
-    <h2>Augmented Reality View</h2>
-    <p>Scan the QR code or view the AR demo below:</p>
-    <!-- A simple A-Frame scene with a 3D Neura Coin model -->
-    <a-scene embedded style="border-radius:10px;">
-      <a-assets>
-        <!-- Replace with your 3D model URL if available -->
-        <a-asset-item id="coinModel" src="https://cdn.aframe.io/test-models/models/glTF-Sample-Models/2.0/Duck/glTF/Duck.gltf"></a-asset-item>
-      </a-assets>
-      <a-entity gltf-model="#coinModel" scale="0.5 0.5 0.5" position="0 1 -3" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000"></a-entity>
-      <a-sky color="#0a0a0a"></a-sky>
-    </a-scene>
-  </section>
-
-  <!-- Footer -->
   <footer>
-    <p>Stay connected: 
-      <a href="#" style="color:#ff7b00;">Twitter</a> | 
-      <a href="#" style="color:#ff7b00;">Telegram</a> | 
-      <a href="#" style="color:#ff7b00;">Discord</a>
-    </p>
     <p>© 2025 Neura Coin. All Rights Reserved.</p>
   </footer>
 
   <script>
-    /* --- Three.js 3D Animated Background (Spinning Coin Simulation) --- */
-    let scene, camera, renderer, coin;
-    function initThree() {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-      renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
+    /* ---------- Three.js: 3D Animated Neura Coin ---------- */
+    let coinScene, coinCamera, coinRenderer, coinMesh;
+    function initCoin() {
+      const canvas = document.getElementById('coin-canvas');
+      coinScene = new THREE.Scene();
+      coinCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      coinRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+      coinRenderer.setSize(window.innerWidth, window.innerHeight);
       
-      // Create a coin using a cylinder geometry
-      let geometry = new THREE.CylinderGeometry(2, 2, 0.2, 32);
-      let material = new THREE.MeshPhongMaterial({ color: 0xff7b00, shininess: 100 });
-      coin = new THREE.Mesh(geometry, material);
-      scene.add(coin);
+      const coinGeometry = new THREE.CylinderGeometry(2, 2, 0.3, 32);
+      const coinMaterial = new THREE.MeshBasicMaterial({ color: 0xff7b00 });
+      coinMesh = new THREE.Mesh(coinGeometry, coinMaterial);
+      coinScene.add(coinMesh);
       
-      // Add ambient and point lights for a glowing effect
-      let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(ambientLight);
-      let pointLight = new THREE.PointLight(0xffffff, 1);
-      pointLight.position.set(10, 10, 10);
-      scene.add(pointLight);
+      // Neon light for coin effect
+      const pointLight = new THREE.PointLight(0xff7b00, 2, 50);
+      pointLight.position.set(10,10,10);
+      coinScene.add(pointLight);
       
-      camera.position.z = 5;
+      coinCamera.position.z = 5;
+      animateCoin();
     }
-    function animateThree() {
-      requestAnimationFrame(animateThree);
-      coin.rotation.x += 0.01;
-      coin.rotation.y += 0.01;
-      renderer.render(scene, camera);
+    function animateCoin() {
+      requestAnimationFrame(animateCoin);
+      coinMesh.rotation.y += 0.01;
+      coinRenderer.render(coinScene, coinCamera);
     }
-    initThree();
-    animateThree();
+    initCoin();
 
-    /* --- Live Dashboard Simulation --- */
+    /* ---------- Three.js: 3D Rotating AI Brain Visualization ---------- */
+    let brainScene, brainCamera, brainRenderer, brainMesh;
+    function initBrain() {
+      const canvas = document.getElementById('brain-canvas');
+      brainScene = new THREE.Scene();
+      brainCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      brainRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+      brainRenderer.setSize(window.innerWidth, window.innerHeight);
+      
+      // Create a simulated AI Brain with points
+      const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+      const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.05 });
+      const particles = new THREE.BufferGeometry().setFromPoints(createParticlePositions(500));
+      brainMesh = new THREE.Points(particles, material);
+      brainScene.add(brainMesh);
+      
+      brainCamera.position.z = 3;
+      animateBrain();
+    }
+    function createParticlePositions(count) {
+      let positions = [];
+      for (let i = 0; i < count; i++) {
+        positions.push(new THREE.Vector3(
+          (Math.random()-0.5)*3,
+          (Math.random()-0.5)*3,
+          (Math.random()-0.5)*3
+        ));
+      }
+      return positions;
+    }
+    function animateBrain() {
+      requestAnimationFrame(animateBrain);
+      brainMesh.rotation.y += 0.005;
+      brainRenderer.render(brainScene, brainCamera);
+    }
+    initBrain();
+
+    /* ---------- AI-Powered Dashboard Simulation ---------- */
     function updateDashboard() {
-      document.getElementById('price').innerText = "$" + (Math.random() * 10).toFixed(2);
-      document.getElementById('mining-power').innerText = (Math.random() * 100).toFixed(2) + " TH/s";
-      document.getElementById('total-supply').innerText = (Math.random() * 1000000).toFixed(0) + " NEURA";
+      document.getElementById('live-price').innerText = "$" + (Math.random() * 10 + 1).toFixed(2);
+      document.getElementById('mining-stats').innerText = (Math.random() * 50 + 1).toFixed(2) + " TH/s";
+      document.getElementById('total-supply').innerText = (Math.random() * 1000000 + 100000).toFixed(0) + " NEURA";
     }
     setInterval(updateDashboard, 3000);
 
-    /* --- Investment Calculator --- */
-    function calculateEarnings() {
-      let hours = document.getElementById('mining-hours').value;
-      let power = document.getElementById('mining-power-input').value;
-      if(hours && power) {
-        // Simple simulation: earnings = hours * power * random factor
-        let earnings = (hours * power * (Math.random() * 0.1 + 0.05)).toFixed(2);
-        document.getElementById('calculator-result').innerText = "Estimated Earnings: " + earnings + " NEURA";
+    /* ---------- Email Subscription ---------- */
+    function subscribeEmail() {
+      const email = document.getElementById('email').value;
+      if(email) {
+        alert("Subscribed with: " + email);
       } else {
-        document.getElementById('calculator-result').innerText = "Please enter valid values.";
+        alert("Please enter a valid email address.");
       }
     }
 
-    /* --- Live Blockchain Terminal Simulation --- */
+    /* ---------- Airdrop & Referral Handler ---------- */
+    function handleAirdrop(e) {
+      e.preventDefault();
+      const referral = document.getElementById('referral-code').value;
+      if(referral) {
+        alert("Airdrop claimed using referral: " + referral);
+      } else {
+        alert("Airdrop claimed! (No referral provided)");
+      }
+    }
+
+    /* ---------- Wallet Connection (MetaMask/Trust Wallet) ---------- */
+    async function connectWallet() {
+      if(window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          alert("Wallet connected: " + accounts[0]);
+        } catch (error) {
+          console.error(error);
+          alert("Wallet connection failed.");
+        }
+      } else {
+        alert("No wallet detected. Please install MetaMask or use Trust Wallet.");
+      }
+    }
+
+    /* ---------- Dynamic Roadmap Scroll Animation ---------- */
+    const roadmapItems = document.querySelectorAll('.roadmap li');
+    function revealRoadmap() {
+      roadmapItems.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        if(rect.top < window.innerHeight) {
+          item.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealRoadmap);
+    revealRoadmap();
+
+    /* ---------- Chatbot (Placeholder for GPT API) ---------- */
+    const chatbot = document.getElementById('chatbot');
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    chatbotToggle.addEventListener('click', toggleChatbot);
+    function toggleChatbot() {
+      chatbot.style.display = (chatbot.style.display === "flex") ? "none" : "flex";
+    }
+    function sendChat() {
+      const input = document.getElementById('chatbot-input').value;
+      if(input) {
+        const response = "Placeholder answer for: " + input;
+        const chatbotBody = document.getElementById('chatbot-body');
+        const msgElem = document.createElement('p');
+        msgElem.innerText = "You: " + input + "\nBot: " + response;
+        chatbotBody.appendChild(msgElem);
+        document.getElementById('chatbot-input').value = "";
+      }
+    }
+
+    /* ---------- Live Blockchain Terminal Simulation ---------- */
     function logTerminal(message) {
-      let terminal = document.getElementById('terminal-log');
-      let p = document.createElement('p');
-      p.textContent = message;
-      terminal.appendChild(p);
-      terminal.scrollTop = terminal.scrollHeight;
+      const terminalLog = document.getElementById('terminal-log');
+      const logEntry = document.createElement('p');
+      logEntry.innerText = message;
+      terminalLog.appendChild(logEntry);
+      terminalLog.scrollTop = terminalLog.scrollHeight;
     }
     setInterval(() => {
-      logTerminal("TX " + Math.random().toString(36).substring(2, 10) + " confirmed");
+      logTerminal("TX " + Math.random().toString(36).substring(2,10) + " confirmed");
     }, 5000);
 
-    /* --- Trivia Quiz Function --- */
-    function checkTrivia() {
-      let answer = document.getElementById('trivia-answer').value.toLowerCase();
-      let feedback = document.getElementById('trivia-feedback');
-      if(answer.includes("neura")) {
-        feedback.innerText = "Correct! You win bonus NEURA tokens.";
-      } else {
-        feedback.innerText = "Try again!";
-      }
+    /* ---------- AI-Generated Personalized UI (Placeholder) ---------- */
+    function personalizeUI() {
+      const hour = new Date().getHours();
+      document.body.style.backgroundColor = (hour < 12) ? "#0a0a0a" : "#050505";
     }
+    personalizeUI();
 
-    /* --- Governance Voting Function --- */
-    function submitVote() {
-      let proposal = document.getElementById('proposal').value;
-      let feedback = document.getElementById('governance-feedback');
-      if(proposal.trim() !== "") {
-        feedback.innerText = "Proposal submitted! Thank you for your input.";
-      } else {
-        feedback.innerText = "Please enter a proposal.";
-      }
-    }
-
-    /* --- Adjust Three.js canvas on window resize --- */
+    /* ---------- Adjust Canvases on Resize ---------- */
     window.addEventListener('resize', function() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      coinRenderer.setSize(window.innerWidth, window.innerHeight);
+      coinCamera.aspect = window.innerWidth/window.innerHeight;
+      coinCamera.updateProjectionMatrix();
+
+      brainRenderer.setSize(window.innerWidth, window.innerHeight);
+      brainCamera.aspect = window.innerWidth/window.innerHeight;
+      brainCamera.updateProjectionMatrix();
     });
   </script>
 </body>
