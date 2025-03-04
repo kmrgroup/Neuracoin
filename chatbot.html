@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Neura Coin Support Chat – Ask Questions & Get Help" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neura Coin | Chat Support</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background: #0b0f24; color: #fff; margin: 0; }
+    header { background: rgba(11,15,36,0.9); padding: 1rem 5%; position: fixed; width: 100%; top: 0; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .container { padding: 100px 20px 60px; max-width: 800px; margin: 0 auto; }
+    .chat-container { background: #111; border-radius: 8px; padding: 1rem; height: 400px; overflow-y: auto; }
+    .chat-input { margin-top: 1rem; display: flex; }
+    .chat-input input { flex: 1; padding: 0.8rem; border-radius: 4px; border: none; }
+    .chat-input button { padding: 0.8rem 1rem; margin-left: 0.5rem; border-radius: 4px; background: #b954ff; border: none; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="nav-brand">Neura Coin</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="chatbot.html">Chat</a>
+        <a href="customization.html">Customize</a>
+        <a href="news.html">News</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Chatbot Section -->
+  <div class="container" data-aos="fade-up">
+    <h2>Neura Coin AI Chat Support</h2>
+    <p>Ask your questions and get assistance in real time.</p>
+    <div class="chat-container" id="chatContainer">
+      <!-- Chat messages will appear here -->
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatMessage" placeholder="Type your message here..." />
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </div>
+
+  <footer style="text-align:center; padding:1rem; background:#0a0d23;">
+    <p>© 2025 Neura Coin. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Placeholder AI Chatbot Integration
+    function sendChat() {
+      const input = document.getElementById('chatMessage');
+      const msg = input.value.trim();
+      if (!msg) return;
+      const chatContainer = document.getElementById('chatContainer');
+      const userMsg = document.createElement('p');
+      userMsg.textContent = "You: " + msg;
+      chatContainer.appendChild(userMsg);
+      // Simulate API response (in production, call GPT API)
+      setTimeout(() => {
+        const botMsg = document.createElement('p');
+        botMsg.textContent = "Bot: This is a placeholder answer for: " + msg;
+        chatContainer.appendChild(botMsg);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 1000);
+      input.value = "";
+    }
+  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>
