@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="description" content="Neura Coin - Futuristic AI-Powered Crypto" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neura Coin - Futuristic AI-Powered Crypto</title>
+  <title>Neura Coin - Futuristic Neural AI-Powered Crypto Coin</title>
   
   <!-- ================= External Libraries ================= -->
   <!-- Three.js for 3D rotating coin -->
@@ -187,11 +187,10 @@
     
     <!-- Hero Content: Glitch Title & Typing Subtitle -->
     <div class="hero-content" data-aos="fade-up">
-      <h1 class="glitch" data-text="Neura Coin">Neura Coin</h1>
+      <h1 class="glitch" data-text="Neura Coin"></h1>
       <h3 class="glow-text" id="typed-subtitle"></h3>
       <p style="margin-top:1rem;">
-        <button class="btn" onclick="playBeep()">Beep On Click</button>
-        <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+         <button class="btn" onclick="connectWallet()">Connect Wallet</button>
       </p>
     </div>
   </section>
@@ -233,11 +232,11 @@
     </div>
     <div class="card" style="margin-top:1rem;">
       <h3><i class="fas fa-microchip"></i> Tap "Mine"</h3>
-      <p>Activate AI-powered mining with one click.</p>
+      <p>Activate AI-powered mining with one click in app.</p>
     </div>
     <div class="card" style="margin-top:1rem;">
       <h3><i class="fas fa-trophy"></i> Earn Rewards</h3>
-      <p>Receive Neura Coins every 24 hours automatically.</p>
+      <p>Receive Neura Coins every 24 hours automatically when start mining.</p>
     </div>
     <p style="text-align:center; margin-top:1.5rem; color:#ccc;">
       Want more? Buy, trade, or stake NEURA on upcoming exchanges & DeFi platforms!
@@ -254,14 +253,29 @@
     <div style="text-align:center; color:#ffc107; font-weight:600;">
       Limited-Time Giveaway: Get FREE NEURA before launch!
     </div>
-    <form onsubmit="airdropSubmit(event)" style="max-width:400px; margin:2rem auto;">
-      <div class="card" style="padding:1rem;">
-        <input type="text" placeholder="Your Name" required style="width:100%; margin-bottom:1rem; padding:0.5rem;"/>
-        <input type="email" placeholder="Email" required style="width:100%; margin-bottom:1rem; padding:0.5rem;"/>
-        <button class="btn" type="submit">Submit & Confetti</button>
-      </div>
-    </form>
-  </section>
+    <h3>How to Participate?</h3>
+      <ul>
+        <li><i class="fas fa-check"></i> Follow us on X (Twitter) & Telegram</li>
+        <li><i class="fas fa-check"></i> Retweet & Tag 3 Friends</li>
+        <li><i class="fas fa-check"></i> Complete Simple Tasks (Like, Share, Subscribe, etc.)</li>
+        <li><i class="fas fa-check"></i> Submit Your Wallet Address & Receive NEURA Tokens!</li>
+      </ul>
+      <p style="margin-top:1rem; color:#ffc107; font-weight:600;">
+        <i class="fas fa-award"></i> Extra Rewards! Invite more friends & climb the Airdrop Leaderboard to unlock exclusive bonuses!
+      </p>
+    </div>
+    <div class="airdrop-grid-right">
+      <form onsubmit="event.preventDefault(); alert('Airdrop Form Submitted!');">
+        <h4>Join the Airdrop Now!</h4>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Email Address" required />
+        <input type="text" placeholder="Wallet Address (ERC-20)" required />
+        <input type="text" placeholder="Twitter Username" />
+        <button class="btn" type="submit">Submit & Claim NEURA</button>
+      </form>
+    </div>
+  </div>
+</section>
 
   <!-- ================= Roadmap Section ================= -->
   <section class="container" id="roadmap" data-aos="fade-up">
