@@ -2,198 +2,369 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Neura Coin – Futuristic AI-Powered Crypto" />
+  <meta name="description" content="Neura Coin - Futuristic AI-Powered Crypto" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neura Coin | Home</title>
-  <!-- Schema.org Structured Data (placeholder) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Neura Coin",
-    "url": "https://www.neuracoin.com"
-  }
-  </script>
-  <!-- Google Analytics Placeholder -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'YOUR_GA_ID');
-  </script> -->
+  <title>Neura Coin - Futuristic AI-Powered Crypto</title>
   
-  <!-- External Libraries -->
-  <!-- GSAP for transitions -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <!-- Three.js, Particles.js, AOS, Typed.js, Rellax.js, Confetti already in previous code -->
+  <!-- ================= External Libraries ================= -->
+  <!-- Three.js for 3D rotating coin -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- Particles.js for neural network-style background -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  
+  <!-- AOS for section reveal animations -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script src="https://cdn.jsdelivr.net/npm/rellax@1.12.1/rellax.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
+  <!-- Typed.js for typing effect -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  
+  <!-- Rellax.js for parallax scrolling -->
+  <script src="https://cdn.jsdelivr.net/npm/rellax@1.12.1/rellax.min.js"></script>
+  
+  <!-- Confetti for micro-interaction on form submit -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
-    /* Basic Reset & Base Styles */
+    /* ================= Reset & Base ================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: "Segoe UI", Tahoma, sans-serif;
       background: #0b0f24;
       color: #fff;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
     a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4 { margin-bottom: 0.5rem; }
+    p { margin-bottom: 1rem; line-height: 1.5; }
     .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 60px 0; }
+    button, .btn {
+      cursor: pointer; border: none; outline: none;
+      background: linear-gradient(90deg, #6e29ec, #b06fff);
+      color: #fff; padding: 12px 24px; border-radius: 8px;
+      font-weight: 600; transition: 0.3s;
+    }
+    button:hover, .btn:hover {
+      background: linear-gradient(90deg, #b06fff, #6e29ec);
+    }
+    /* Neon/Glow text */
+    .glow-text { text-shadow: 0 0 8px #b954ff, 0 0 16px #b954ff; }
     
-    /* Loading Screen */
-    #loading-screen {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #0b0f24;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 2000;
+    /* ================= Navigation ================= */
+    header {
+      width: 100%; position: fixed; top: 0; left: 0;
+      background: rgba(11, 15, 36, 0.9);
+      z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
-    #spinner {
-      border: 8px solid rgba(255, 255, 255, 0.2);
-      border-top: 8px solid #b954ff;
-      border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      animation: spin 1s linear infinite;
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      width: 90%; max-width: 1200px; margin: 0 auto; padding: 1rem 0;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .nav-brand {
+      font-size: 1.4rem; font-weight: 700;
+      background: linear-gradient(90deg, #63d0ff, #b954ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    
-    /* Navigation */
-    header { width: 100%; position: fixed; top: 0; background: rgba(11,15,36,0.9); z-index: 1000; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; }
-    .nav-brand { font-size: 1.5rem; font-weight: 700; background: linear-gradient(90deg, #63d0ff, #b954ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .nav-links a { margin-left: 1.5rem; font-weight: 500; transition: color 0.3s; }
+    .nav-links a {
+      margin-left: 1.5rem; color: #fff; font-weight: 500; transition: color 0.3s;
+    }
     .nav-links a:hover { color: #b954ff; }
-    
-    /* Hero Section with Animated Gradient, Particles & 3D Coin */
+
+    /* ================= Hero Section ================= */
     .hero {
-      position: relative; height: 100vh;
+      position: relative; width: 100%; height: 100vh;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
+      text-align: center; overflow: hidden;
+      /* Animated Gradient Background */
       background: linear-gradient(270deg, #140d3f, #421d63, #190a3b);
       background-size: 600% 600%;
       animation: gradientMove 30s ease infinite;
-      overflow: hidden;
     }
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; }
-    #coin-canvas { position: absolute; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+    /* Particles Background */
+    #particles-js {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1;
+    }
+    /* 3D Coin Canvas */
+    #coin-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 2; pointer-events: none;
+    }
     .hero-content { z-index: 3; max-width: 700px; padding: 20px; }
-    .glitch { font-size: 3rem; font-weight: 700; position: relative; }
-    /* Glitch effect (as before) */
-    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; left: 0; width: 100%; overflow: hidden; color: #b954ff; }
+    /* Glitch & Typing Effects on Title */
+    .glitch {
+      position: relative; display: inline-block; font-size: 2.8rem; font-weight: 700;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position: absolute; left: 0; width: 100%; overflow: hidden;
+      color: #b954ff; clip: rect(0, 0, 0, 0);
+    }
     .glitch::before { animation: glitchTop 2s infinite linear alternate-reverse; }
     .glitch::after { animation: glitchBot 2s infinite linear alternate-reverse; }
-    @keyframes glitchTop { 0% { clip: rect(44px,9999px,56px,0); transform: translate(0,-10px); } 20% { clip: rect(0,9999px,30px,0); transform: translate(5px,-5px); } 40% { clip: rect(24px,9999px,76px,0); transform: translate(-5px,0); } 60% { clip: rect(50px,9999px,40px,0); transform: translate(0,5px); } 80% { clip: rect(0,9999px,50px,0); transform: translate(-5px,0); } 100% { clip: rect(0,9999px,10px,0); transform: translate(0,-5px); } }
-    @keyframes glitchBot { 0% { clip: rect(44px,9999px,56px,0); transform: translate(0,10px); } 20% { clip: rect(0,9999px,30px,0); transform: translate(-5px,5px); } 40% { clip: rect(24px,9999px,76px,0); transform: translate(5px,0); } 60% { clip: rect(50px,9999px,40px,0); transform: translate(0,-5px); } 80% { clip: rect(0,9999px,50px,0); transform: translate(5px,0); } 100% { clip: rect(0,9999px,10px,0); transform: translate(0,5px); } }
+    @keyframes glitchTop {
+      0% { clip: rect(44px, 9999px, 56px, 0); transform: translate(0, -10px); }
+      20% { clip: rect(0px, 9999px, 30px, 0); transform: translate(5px, -5px); }
+      40% { clip: rect(24px, 9999px, 76px, 0); transform: translate(-5px, 0px); }
+      60% { clip: rect(50px, 9999px, 40px, 0); transform: translate(0px, 5px); }
+      80% { clip: rect(0px, 9999px, 50px, 0); transform: translate(-5px, 0px); }
+      100% { clip: rect(0px, 9999px, 10px, 0); transform: translate(0, -5px); }
+    }
+    @keyframes glitchBot {
+      0% { clip: rect(44px, 9999px, 56px, 0); transform: translate(0, 10px); }
+      20% { clip: rect(0px, 9999px, 30px, 0); transform: translate(-5px, 5px); }
+      40% { clip: rect(24px, 9999px, 76px, 0); transform: translate(5px, 0px); }
+      60% { clip: rect(50px, 9999px, 40px, 0); transform: translate(0px, -5px); }
+      80% { clip: rect(0px, 9999px, 50px, 0); transform: translate(5px, 0px); }
+      100% { clip: rect(0px, 9999px, 10px, 0); transform: translate(0, 5px); }
+    }
+
+    /* ================= Section & Card Styles ================= */
+    section { padding: 60px 20px; position: relative; }
+    .card {
+      background: rgba(255,255,255,0.07); border-radius: 8px; padding: 1.5rem;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .card:hover { background: rgba(255,255,255,0.15); transform: scale(1.03); }
     
-    /* Button styles (liquid hover effects can be further enhanced with GSAP) */
-    .btn { margin: 0.5rem; }
-    
+    /* ================= Parallax Element (Rellax) ================= */
+    .parallax { position: absolute; top: 10%; left: 10%; font-size: 5rem; color: rgba(255,255,255,0.1); pointer-events: none; }
+
+    /* ================= Roadmap Timeline ================= */
+    .timeline { border-left: 2px solid #b954ff; padding-left: 2rem; margin-top: 2rem; }
+    .timeline-item { margin-bottom: 2rem; position: relative; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -11px; background: #b954ff;
+      width: 20px; height: 20px; border-radius: 50%; top: 0;
+    }
+
     /* ================= Footer ================= */
     footer { background: #0a0d23; text-align: center; padding: 1rem; color: #aaa; }
+
+    /* ================= Responsive ================= */
+    @media (max-width: 768px) {
+      .glitch { font-size: 1.8rem; }
+      .parallax { display: none; }
+    }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div id="loading-screen">
-    <div id="spinner"></div>
-  </div>
-
-  <!-- Navigation -->
+  <!-- ================= Navigation ================= -->
   <header>
     <nav>
       <div class="nav-brand">Neura Coin</div>
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="chatbot.html">Chat</a>
-        <a href="customization.html">Customize</a>
-        <a href="news.html">News</a>
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#how-to-get">How to Get</a>
+        <a href="#airdrop">Airdrop</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#connect">Connect</a>
       </div>
     </nav>
   </header>
 
-  <!-- Hero Section -->
+  <!-- ================= Hero Section ================= -->
   <section class="hero" id="hero">
+    <!-- Parallax Text (Rellax) -->
+    <div class="parallax" data-rellax-speed="-5">NEURA</div>
+    
+    <!-- Particles Background -->
     <div id="particles-js"></div>
+    
+    <!-- Three.js Rotating Coin Canvas -->
     <canvas id="coin-canvas"></canvas>
+    
+    <!-- Hero Content: Glitch Title & Typing Subtitle -->
     <div class="hero-content" data-aos="fade-up">
       <h1 class="glitch" data-text="Neura Coin">Neura Coin</h1>
-      <h3 id="typed-subtitle" class="glow-text"></h3>
-      <p>
+      <h3 class="glow-text" id="typed-subtitle"></h3>
+      <p style="margin-top:1rem;">
         <button class="btn" onclick="playBeep()">Beep On Click</button>
         <button class="btn" onclick="connectWallet()">Connect Wallet</button>
       </p>
     </div>
   </section>
 
-  <!-- Additional sections (About, Features, Airdrop, Roadmap, etc.) would follow here as in the previous code -->
+  <!-- ================= About Section ================= -->
   <section class="container" id="about" data-aos="fade-up">
     <h2 class="glow-text">About Neura Coin</h2>
     <p>Neura Coin is an AI-powered cryptocurrency with neural network-based mining and advanced blockchain features.</p>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="container" id="final-cta" data-aos="fade-up">
-    <h3 class="glow-text">Join the Future of AI Crypto Mining!</h3>
-    <div>
-      <a href="dashboard.html" class="btn"><i class="fas fa-chart-line"></i> View Dashboard</a>
-      <a href="chatbot.html" class="btn"><i class="fas fa-comments"></i> Get Support</a>
+    <div class="card">
+      <h3><i class="fas fa-brain"></i> AI-Powered Mining</h3>
+      <p>Experience next-gen mining that adapts to network conditions, ensuring fairness and efficiency.</p>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ================= Features Section ================= -->
+  <section class="container" id="features" data-aos="fade-up">
+    <h2 class="glow-text">Features & Benefits</h2>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-network-wired"></i> Futuristic Neural Net</h3>
+      <p>Our background animations reflect the advanced AI under the hood.</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-bolt"></i> Fast & Low Fees</h3>
+      <p>Polygon-based for quick transactions and minimal costs.</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-gift"></i> Referral & Rewards</h3>
+      <p>Earn more with our invite & earn system as you help grow the community.</p>
+    </div>
+  </section>
+
+  <!-- ================= How to Get Neura Coin ================= -->
+  <section class="container" id="how-to-get" data-aos="fade-up">
+    <h2 class="glow-text">How to Get Neura Coin?</h2>
+    <p>Start mining in 3 easy steps!</p>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-download"></i> Download the Neura Coin App</h3>
+      <p>(Coming soon!)</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-microchip"></i> Tap "Mine"</h3>
+      <p>Activate AI-powered mining with one click.</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-trophy"></i> Earn Rewards</h3>
+      <p>Receive Neura Coins every 24 hours automatically.</p>
+    </div>
+    <p style="text-align:center; margin-top:1.5rem; color:#ccc;">
+      Want more? Buy, trade, or stake NEURA on upcoming exchanges & DeFi platforms!
+    </p>
+    <div style="text-align:center;">
+      <a href="#" class="btn">Join Waitlist</a>
+    </div>
+  </section>
+
+  <!-- ================= Airdrop Section ================= -->
+  <section class="container" id="airdrop" data-aos="fade-up">
+    <h2 class="glow-text"><i class="fas fa-rocket"></i> Airdrop: Claim Free Neura Coins!</h2>
+    <p>Join our exclusive airdrop and be part of the future!</p>
+    <div style="text-align:center; color:#ffc107; font-weight:600;">
+      Limited-Time Giveaway: Get FREE NEURA before launch!
+    </div>
+    <form onsubmit="airdropSubmit(event)" style="max-width:400px; margin:2rem auto;">
+      <div class="card" style="padding:1rem;">
+        <input type="text" placeholder="Your Name" required style="width:100%; margin-bottom:1rem; padding:0.5rem;"/>
+        <input type="email" placeholder="Email" required style="width:100%; margin-bottom:1rem; padding:0.5rem;"/>
+        <button class="btn" type="submit">Submit & Confetti</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ================= Roadmap Section ================= -->
+  <section class="container" id="roadmap" data-aos="fade-up">
+    <h2 class="glow-text">Roadmap & Future Plans</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>Phase 1: Token Launch & Airdrop</h4>
+        <p>Initial token distribution, community building, website launch, and social media engagement.</p>
+        <p style="color:#63d0ff;">Current Phase</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 2: Neura Coin App Release</h4>
+        <p>Mobile app development, AI mining algorithm implementation, and security audits.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 3: Staking & DeFi Integration</h4>
+        <p>Launch of staking mechanisms, yield farming, liquidity pools, and partnerships with DeFi platforms.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 4: Exchange Listings & Global Adoption</h4>
+        <p>Major exchange listings, marketing campaigns, enterprise partnerships, and ecosystem expansion.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="#" class="btn">View Full Roadmap</a>
+    </div>
+  </section>
+
+  <!-- ================= Connect Section ================= -->
+  <section class="container" id="connect" data-aos="fade-up">
+    <h2 class="glow-text">Stay Connected</h2>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fas fa-globe"></i> Website</h3>
+      <p>www.neuracoin.com</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fab fa-twitter"></i> Twitter</h3>
+      <p>@NeuraCoin</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fab fa-telegram"></i> Telegram</h3>
+      <p>Join Community</p>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h3><i class="fab fa-discord"></i> Discord</h3>
+      <p>NeuraCoin Official</p>
+    </div>
+    <div class="card" style="margin-top:2rem;">
+      <h3>Subscribe to our Newsletter</h3>
+      <div style="margin-top:1rem;">
+        <input type="email" placeholder="Enter your email" style="padding:0.8rem; border:none; border-radius:5px; width:60%; max-width:250px;"/>
+        <button class="btn" onclick="alert('Subscribed!')">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Final CTA ================= -->
+  <section class="container" id="final-cta" data-aos="fade-up">
+    <h3 class="glow-text">Join the Future of AI Crypto Mining!</h3>
+    <p>Be part of the revolution that's changing the way cryptocurrency is mined and used.</p>
+    <div style="margin-top:1rem;">
+      <a href="#how-to-get" class="btn"><i class="fas fa-play"></i> Start Mining Now</a>
+      <a href="#airdrop" class="btn"><i class="fas fa-gift"></i> Claim Airdrop</a>
+    </div>
+  </section>
+
+  <!-- ================= Footer ================= -->
   <footer>
-    <p>© 2025 Neura Coin. All Rights Reserved.</p>
+    <p>© 2025 Neura Coin. All rights reserved.</p>
     <p>
-      <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a> | 
+      <a href="#">Contact</a>
     </p>
   </footer>
 
-  <!-- ================= JavaScript ================= -->
+  <!-- ================= JavaScript Enhancements ================= -->
   <script>
-    // Remove loading screen once everything is loaded
-    window.addEventListener("load", function() {
-      gsap.to("#loading-screen", { opacity: 0, duration: 1, onComplete: () => { document.getElementById("loading-screen").style.display = "none"; } });
-    });
-
-    // AOS Initialization
+    /* -------- AOS Initialization -------- */
     AOS.init({ duration: 800, once: true });
 
-    // Rellax for Parallax elements (if any added)
+    /* -------- Rellax for Parallax -------- */
     new Rellax('.parallax');
 
-    // Typed.js for typing effect on hero subtitle
-    new Typed('#typed-subtitle', {
-      strings: ["AI-Powered Crypto Mining", "Next-Gen Blockchain Rewards", "Join the Future of Neura Coin!"],
+    /* -------- Typed.js for Typing Effect -------- */
+    var typed = new Typed('#typed-subtitle', {
+      strings: [
+        "AI-Powered Crypto Mining",
+        "Next-Gen Blockchain Rewards",
+        "Join the Future of Neura Coin!"
+      ],
       typeSpeed: 40,
       backSpeed: 30,
+      backDelay: 1500,
       loop: true
     });
 
-    // Particles.js for background effect
+    /* -------- Particles.js (Neural Network Style Background) -------- */
     particlesJS("particles-js", {
       "particles": {
         "number": { "value": 70 },
         "color": { "value": "#b954ff" },
-        "shape": { "type": "circle" },
+        "shape": { "type": "circle", "stroke": { "width": 0 } },
         "opacity": { "value": 0.6, "random": true },
         "size": { "value": 3, "random": true },
         "line_linked": { "enable": true, "distance": 120, "color": "#6e29ec", "opacity": 0.6, "width": 1 },
@@ -201,25 +372,27 @@
       }
     });
 
-    // Three.js: 3D Rotating Neura Coin
+    /* -------- Three.js: 3D Rotating Neura Coin -------- */
     let coinScene, coinCamera, coinRenderer, coinMesh;
     function initCoin() {
-      const canvas = document.getElementById("coin-canvas");
+      const canvas = document.getElementById('coin-canvas');
       coinScene = new THREE.Scene();
-      coinCamera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+      coinCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
       coinCamera.position.z = 5;
       coinRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
       coinRenderer.setSize(window.innerWidth, window.innerHeight);
-      
+
+      // Create coin geometry
       const geometry = new THREE.CylinderGeometry(1.5, 1.5, 0.2, 32);
       const material = new THREE.MeshStandardMaterial({ color: 0xb954ff, metalness: 0.8, roughness: 0.3 });
       coinMesh = new THREE.Mesh(geometry, material);
       coinScene.add(coinMesh);
-      
+
+      // Add light
       const pointLight = new THREE.PointLight(0xffffff, 1);
       pointLight.position.set(10, 10, 10);
       coinScene.add(pointLight);
-      
+
       animateCoin();
     }
     function animateCoin() {
@@ -228,45 +401,40 @@
       coinRenderer.render(coinScene, coinCamera);
     }
     initCoin();
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       coinCamera.aspect = window.innerWidth / window.innerHeight;
       coinCamera.updateProjectionMatrix();
       coinRenderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Confetti micro-interaction on form submission (if applicable)
+    /* -------- Confetti on Airdrop Form Submit -------- */
     function airdropSubmit(e) {
       e.preventDefault();
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       alert("Airdrop Form Submitted!");
     }
 
-    // Beep sound on button click
+    /* -------- Beep Sound on Button Click -------- */
     const beepAudio = new Audio("data:audio/wav;base64,UklGRpYAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=");
     function playBeep() {
       beepAudio.currentTime = 0;
       beepAudio.play();
     }
 
-    // Wallet connection placeholder
+    /* -------- Wallet Connection (MetaMask / Trust Wallet) -------- */
     async function connectWallet() {
-      if (window.ethereum) {
+      if(window.ethereum) {
         try {
-          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           alert("Wallet connected: " + accounts[0]);
         } catch (error) {
+          console.error(error);
           alert("Wallet connection failed.");
         }
       } else {
-        alert("No wallet detected. Please install MetaMask.");
+        alert("No wallet detected. Please install MetaMask or use Trust Wallet.");
       }
     }
- <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('Service Worker Registered', reg))
-      .catch(err => console.error('Service Worker registration failed:', err));
-  }
-</script>
+  </script>
 </body>
 </html>
