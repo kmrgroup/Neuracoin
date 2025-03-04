@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Neura Coin Dashboard – Market Trends & Mining Performance" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neura Coin | Dashboard</title>
+  <!-- Schema.org & Analytics markup (placeholder) -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <!-- Chart.js for interactive charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    /* Use similar base styles & navigation as index.html */
+    body { font-family: "Segoe UI", sans-serif; background: #0b0f24; color: #fff; margin: 0; }
+    header { background: rgba(11,15,36,0.9); padding: 1rem 5%; position: fixed; width: 100%; top: 0; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-size: 1.5rem; font-weight: 700; }
+    .nav-links a { margin-left: 1.5rem; }
+    .container { padding: 100px 20px 60px; max-width: 1200px; margin: 0 auto; }
+    canvas { background: #111; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="nav-brand">Neura Coin</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="chatbot.html">Chat</a>
+        <a href="customization.html">Customize</a>
+        <a href="news.html">News</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Dashboard Content -->
+  <div class="container" data-aos="fade-up">
+    <h2>Market Trends & Mining Performance</h2>
+    <!-- Interactive Chart -->
+    <canvas id="dashboardChart" width="400" height="200"></canvas>
+  </div>
+
+  <footer style="text-align:center; padding:1rem; background:#0a0d23;">
+    <p>© 2025 Neura Coin. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Simple Chart.js demo chart
+    const ctx = document.getElementById('dashboardChart').getContext('2d');
+    const dashboardChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        datasets: [{
+          label: "Mining Performance",
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: "rgba(185,84,255,0.2)",
+          borderColor: "rgba(185,84,255,1)",
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // GSAP smooth transition on page load
+    gsap.from(".container", { opacity: 0, y: 50, duration: 1 });
+  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>
