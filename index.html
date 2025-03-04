@@ -1,99 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neura Coin - AI-Powered Crypto</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neura Coin - Futuristic AI-Powered Crypto</title>
+  <!-- External Library for 3D visuals -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    /* Reset & Base Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    a { text-decoration: none; }
+    
+    /* Navigation Bar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.85);
+      padding: 10px 0;
+      z-index: 1000;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #ff7b00;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #e66a00; }
+
+    /* Hero Section with 3D Background */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    .cta-buttons .btn {
+      padding: 12px 24px;
+      background: #ff7b00;
+      color: #fff;
+      border-radius: 5px;
+      margin: 10px;
+      transition: background 0.3s;
+    }
+    .cta-buttons .btn:hover {
+      background: #e66a00;
+    }
+    #three-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 60px 20px;
+      background: rgba(255,255,255,0.05);
+      margin: 30px auto;
+      max-width: 1200px;
+      border-radius: 10px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #ff7b00;
+    }
+    p { margin-bottom: 15px; line-height: 1.6; }
+
+    /* Dashboard Section */
+    .dashboard { display: flex; justify-content: center; flex-wrap: wrap; }
+    .dashboard .metric {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      min-width: 150px;
+      text-align: center;
+    }
+
+    /* Calculator, Governance, Trivia */
+    .calculator, .governance, .trivia {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .calculator input, .governance input, .trivia input {
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      width: 200px;
+    }
+    .calculator button, .governance button, .trivia button {
+      padding: 10px 20px;
+      background: #ff7b00;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+    .calculator button:hover, .governance button:hover, .trivia button:hover {
+      background: #e66a00;
+    }
+
+    /* Terminal Section */
+    .terminal {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      text-align: left;
+      padding: 20px;
+      border-radius: 5px;
+      height: 200px;
+      overflow-y: auto;
+    }
+
+    /* Avatars Section */
+    .avatars {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .avatars img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 10px;
+      border: 2px solid #ff7b00;
+      transition: transform 0.3s;
+    }
+    .avatars img:hover { transform: scale(1.1); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav a { margin: 0 10px; font-size: 0.9em; }
+      .hero h1 { font-size: 1.8em; }
+      .dashboard .metric { min-width: 120px; }
+    }
+    footer {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#terminal">Terminal</a>
+    <a href="#trivia">Trivia</a>
+    <a href="#avatars">Avatars</a>
+    <a href="#governance">Governance</a>
+  </nav>
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>The Future of AI-Powered Crypto Mining is Here!</h1>
-            <p>Neura Coin (NEURA) – A next-gen cryptocurrency powered by AI-driven neural networks.</p>
-            <div class="cta-buttons">
-                <a href="#get-neura" class="btn">🚀 Get Started</a>
-                <a href="#airdrop" class="btn secondary">🎁 Join Airdrop</a>
-            </div>
-        </div>
-    </header>
+  <!-- Hero Section with 3D Animated Background -->
+  <header id="hero" class="hero">
+    <canvas id="three-canvas"></canvas>
+    <div class="hero-content">
+      <h1>The Future of AI-Powered Crypto Mining is Here!</h1>
+      <p>Neura Coin (NEURA) – A next-gen cryptocurrency powered by AI-driven neural networks.</p>
+      <div class="cta-buttons">
+        <a href="#dashboard" class="btn">Dashboard</a>
+        <a href="#trivia" class="btn">Join Trivia</a>
+      </div>
+    </div>
+  </header>
 
-    <!-- About Neura Coin -->
-    <section class="about">
-        <h2>The AI Revolution in Cryptocurrency</h2>
-        <p>Neura Coin is a decentralized cryptocurrency powered by AI-based Proof-of-Work using Feedforward Neural Networks (POW-FNN).</p>
-        <ul>
-            <li>🧠 <strong>AI-Powered Mining</strong> – Smart mining with neural networks optimizing rewards.</li>
-            <li>⚡ <strong>Scalable & Fast</strong> – Designed for high-speed transactions with minimal fees.</li>
-            <li>🌍 <strong>Eco-Friendly Mining</strong> – Uses AI to reduce energy consumption.</li>
-            <li>🔐 <strong>Secure & Decentralized</strong> – Built on Polygon blockchain for reliability.</li>
-        </ul>
-    </section>
+  <!-- Live Dashboard Section -->
+  <section id="dashboard" class="dashboard">
+    <h2>Live Crypto Dashboard</h2>
+    <div class="metric">
+      <h3>Price</h3>
+      <p id="price">$0.00</p>
+    </div>
+    <div class="metric">
+      <h3>Mining Power</h3>
+      <p id="mining-power">0 TH/s</p>
+    </div>
+    <div class="metric">
+      <h3>Total Supply</h3>
+      <p id="total-supply">0 NEURA</p>
+    </div>
+  </section>
 
-    <!-- Features & Benefits -->
-    <section class="features">
-        <h2>Why Choose Neura Coin?</h2>
-        <div class="feature-grid">
-            <div class="feature">
-                <h3>AI-Driven Proof-of-Work</h3>
-                <p>Intelligent mining that adapts and evolves.</p>
-            </div>
-            <div class="feature">
-                <h3>24-Hour Auto-Mining</h3>
-                <p>Press ‘Mine’ once a day & earn continuously for 24 hours.</p>
-            </div>
-            <div class="feature">
-                <h3>Fair Token Distribution</h3>
-                <p>Ensuring fair mining rewards & anti-whale protection.</p>
-            </div>
-            <div class="feature">
-                <h3>Seamless Transactions</h3>
-                <p>Ultra-fast, low-cost transactions across the network.</p>
-            </div>
-        </div>
-    </section>
+  <!-- Investment Calculator Section -->
+  <section id="calculator" class="calculator">
+    <h2>AI-Powered Investment Calculator</h2>
+    <p>Estimate your potential mining earnings:</p>
+    <input type="number" id="mining-hours" placeholder="Mining Hours" min="1">
+    <input type="number" id="mining-power-input" placeholder="Mining Power (TH/s)" min="1">
+    <button onclick="calculateEarnings()">Calculate Earnings</button>
+    <p id="calculator-result"></p>
+  </section>
 
-    <!-- How to Get Neura Coin -->
-    <section id="get-neura" class="how-to-get">
-        <h2>Start Mining in 3 Easy Steps!</h2>
-        <ol>
-            <li>📥 <strong>Download the Neura Coin App</strong> (Coming Soon!)</li>
-            <li>⛏️ <strong>Tap "Mine"</strong> – Activate AI-powered mining with one click.</li>
-            <li>💰 <strong>Earn Rewards</strong> – Get Neura Coins every 24 hours.</li>
-        </ol>
-    </section>
+  <!-- Live Terminal Section -->
+  <section id="terminal" class="terminal">
+    <h2>Live Blockchain Terminal</h2>
+    <div id="terminal-log"></div>
+  </section>
 
-    <!-- Airdrop Section -->
-    <section id="airdrop" class="airdrop">
-        <h2>🚀 Join Our Airdrop & Earn Free Neura Coins!</h2>
-        <p>Complete simple tasks & claim your free NEURA tokens.</p>
-        <ul>
-            <li>✅ Follow us on Twitter & Telegram</li>
-            <li>✅ Retweet & Tag 3 Friends</li>
-            <li>✅ Submit Your Wallet Address</li>
-        </ul>
-        <a href="#airdrop-form" class="btn">🔗 Join the Airdrop Now!</a>
-    </section>
+  <!-- Trivia Quiz Section -->
+  <section id="trivia" class="trivia">
+    <h2>AI-Powered Trivia & Challenges</h2>
+    <p>Test your crypto knowledge and win bonus NEURA tokens!</p>
+    <input type="text" id="trivia-answer" placeholder="Your Answer">
+    <button onclick="checkTrivia()">Submit Answer</button>
+    <p id="trivia-feedback"></p>
+  </section>
 
-    <!-- Roadmap -->
-    <section class="roadmap">
-        <h2>Our Roadmap & Future Plans</h2>
-        <ul>
-            <li>📍 Q2 2025 – Token Launch & Airdrop 🚀</li>
-            <li>📍 Q3 2025 – Neura Coin App Release 📱</li>
-            <li>📍 Q4 2025 – Staking & DeFi Integration 🔗</li>
-        </ul>
-    </section>
+  <!-- Collectible Avatars Section -->
+  <section id="avatars" class="avatars">
+    <h2>Neura Coin Collectible Avatars</h2>
+    <p>Discover unique, AI-generated avatars:</p>
+    <img src="https://via.placeholder.com/100" alt="Avatar 1">
+    <img src="https://via.placeholder.com/100" alt="Avatar 2">
+    <img src="https://via.placeholder.com/100" alt="Avatar 3">
+    <img src="https://via.placeholder.com/100" alt="Avatar 4">
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>💎 Stay connected: <a href="#">Twitter</a> | <a href="#">Telegram</a> | <a href="#">Discord</a></p>
-        <p>📩 Subscribe for updates: <input type="email" placeholder="Enter your email"> <button>Subscribe</button></p>
-        <p>© 2025 Neura Coin. All Rights Reserved.</p>
-    </footer>
+  <!-- Governance / Voting Section -->
+  <section id="governance" class="governance">
+    <h2>Blockchain Governance</h2>
+    <p>Vote on proposals to shape the future of Neura Coin:</p>
+    <input type="text" id="proposal" placeholder="Enter your proposal">
+    <button onclick="submitVote()">Submit Proposal</button>
+    <p id="governance-feedback"></p>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- Footer -->
+  <footer>
+    <p>Stay connected: 
+      <a href="#" style="color:#ff7b00;">Twitter</a> | 
+      <a href="#" style="color:#ff7b00;">Telegram</a> | 
+      <a href="#" style="color:#ff7b00;">Discord</a>
+    </p>
+    <p>© 2025 Neura Coin. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    /* --- Three.js 3D Animated Background (Spinning Coin Simulation) --- */
+    let scene, camera, renderer, coin;
+    function initThree() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      
+      // Create a coin using a cylinder geometry
+      let geometry = new THREE.CylinderGeometry(2, 2, 0.2, 32);
+      let material = new THREE.MeshPhongMaterial({ color: 0xff7b00, shininess: 100 });
+      coin = new THREE.Mesh(geometry, material);
+      scene.add(coin);
+      
+      // Add point light for a glowing effect
+      let light = new THREE.PointLight(0xffffff, 1);
+      light.position.set(10, 10, 10);
+      scene.add(light);
+      
+      camera.position.z = 5;
+    }
+    function animateThree() {
+      requestAnimationFrame(animateThree);
+      coin.rotation.x += 0.01;
+      coin.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    initThree();
+    animateThree();
+
+    /* --- Live Dashboard Simulation --- */
+    function updateDashboard() {
+      document.getElementById('price').innerText = "$" + (Math.random() * 10).toFixed(2);
+      document.getElementById('mining-power').innerText = (Math.random() * 100).toFixed(2) + " TH/s";
+      document.getElementById('total-supply').innerText = (Math.random() * 1000000).toFixed(0) + " NEURA";
+    }
+    setInterval(updateDashboard, 3000);
+
+    /* --- Investment Calculator --- */
+    function calculateEarnings() {
+      let hours = document.getElementById('mining-hours').value;
+      let power = document.getElementById('mining-power-input').value;
+      if(hours && power) {
+        // Simple simulation: earnings = hours * power * random factor
+        let earnings = (hours * power * (Math.random() * 0.1 + 0.05)).toFixed(2);
+        document.getElementById('calculator-result').innerText = "Estimated Earnings: " + earnings + " NEURA";
+      } else {
+        document.getElementById('calculator-result').innerText = "Please enter valid values.";
+      }
+    }
+
+    /* --- Live Blockchain Terminal Simulation --- */
+    function logTerminal(message) {
+      let terminal = document.getElementById('terminal-log');
+      let p = document.createElement('p');
+      p.textContent = message;
+      terminal.appendChild(p);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+    setInterval(() => {
+      logTerminal("TX " + Math.random().toString(36).substring(2, 10) + " confirmed");
+    }, 5000);
+
+    /* --- Trivia Quiz Function --- */
+    function checkTrivia() {
+      let answer = document.getElementById('trivia-answer').value.toLowerCase();
+      let feedback = document.getElementById('trivia-feedback');
+      if(answer.includes("neura")) {
+        feedback.innerText = "Correct! You win bonus NEURA tokens.";
+      } else {
+        feedback.innerText = "Try again!";
+      }
+    }
+
+    /* --- Governance Voting Function --- */
+    function submitVote() {
+      let proposal = document.getElementById('proposal').value;
+      let feedback = document.getElementById('governance-feedback');
+      if(proposal.trim() !== "") {
+        feedback.innerText = "Proposal submitted! Thank you for your input.";
+      } else {
+        feedback.innerText = "Please enter a proposal.";
+      }
+    }
+
+    /* --- Responsiveness: Adjust Three.js canvas on window resize --- */
+    window.addEventListener('resize', function() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
 </html>
