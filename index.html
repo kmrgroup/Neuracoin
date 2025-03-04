@@ -1,464 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Neura Coin - Futuristic AI-Powered Crypto</title>
-  <!-- Three.js for 3D animations and WebGL visuals -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- Web3.js for wallet connectivity -->
-  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Neura Coin - AI-Powered Cryptocurrency" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neura Coin - AI-Powered Crypto Mining</title>
+  
+  <!-- Example Icons (Font Awesome) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
   <style>
-    /* Base Styles: Dark Cyberpunk UI with Neon Highlights */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ------------------------------
+       RESET & BASE STYLES
+    ------------------------------ */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0a0a0a;
-      color: #fff;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #0b0f24;
+      color: #ffffff;
       overflow-x: hidden;
-      scroll-behavior: smooth;
     }
-    a { color: #ff7b00; text-decoration: none; }
-    
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0,0,0,0.85);
-      padding: 10px 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
+    a {
+      color: inherit; text-decoration: none; cursor: pointer;
     }
-    nav a:hover { color: #e66a00; }
+    ul { list-style: none; }
+    button {
+      cursor: pointer; border: none; outline: none;
+    }
+    img { max-width: 100%; display: block; }
 
-    /* Liquid Button Animation */
+    /* ------------------------------
+       GLOBAL CLASSES
+    ------------------------------ */
+    .container {
+      width: 90%; max-width: 1200px; margin: 0 auto; padding: 60px 0;
+    }
+    .section-title {
+      font-size: 2.2rem; margin-bottom: 1rem; text-align: center;
+      color: #b06fff; /* Purple accent title */
+    }
+    .section-subtitle {
+      font-size: 1.1rem; color: #bbb; text-align: center; max-width: 700px; margin: 0.5rem auto 2rem;
+    }
     .btn {
-      padding: 12px 24px;
-      background: linear-gradient(45deg, #ff7b00, #e66a00);
-      border: none;
-      border-radius: 30px;
-      color: #fff;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s ease;
+      display: inline-block; padding: 14px 24px; border-radius: 8px;
+      background: linear-gradient(90deg, #6e29ec, #b06fff);
+      color: #fff; font-weight: 600; transition: 0.3s;
     }
-    .btn:hover { background: linear-gradient(45deg, #e66a00, #ff7b00); }
+    .btn:hover {
+      background: linear-gradient(90deg, #b06fff, #6e29ec);
+    }
+    /* For spacing around headings or containers */
+    .mb-2 { margin-bottom: 2rem; }
+    .mb-1 { margin-bottom: 1rem; }
 
-    /* Sections */
-    section { padding: 80px 20px; margin-top: 60px; text-align: center; }
-    
-    /* Hero Section: 3D Animated Neura Coin & AI Brain */
+    /* ------------------------------
+       NAVIGATION
+    ------------------------------ */
+    header {
+      width: 100%; position: fixed; top: 0; left: 0;
+      background: rgba(11, 15, 36, 0.9);
+      z-index: 999; box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      width: 90%; max-width: 1200px; margin: 0 auto; padding: 1rem 0;
+    }
+    .nav-brand {
+      font-size: 1.4rem; font-weight: 700;
+      background: linear-gradient(90deg, #63d0ff, #b954ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      margin-left: 1.5rem; color: #fff; font-weight: 500; transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: #b954ff;
+    }
+
+    /* ------------------------------
+       HERO SECTION
+    ------------------------------ */
     .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: #111;
-    }
-    .hero canvas { position: absolute; top: 0; left: 0; }
-    .hero-content { position: relative; z-index: 2; }
-    
-    /* Dashboard */
-    .dashboard {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .dashboard .metric {
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 10px;
-      width: 200px;
-    }
-    
-    /* Subscription Form */
-    .subscription { margin-top: 20px; }
-    .subscription input[type="email"] {
-      padding: 10px; width: 250px;
-      border: none; border-radius: 5px; margin-right: 10px;
-    }
-    
-    /* Airdrop & Referral Section */
-    .airdrop, .referral { margin: 40px 0; }
-    .airdrop form, .referral form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    /* Chatbot Popup */
-    .chatbot {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.85);
-      border: 2px solid #ff7b00;
-      border-radius: 10px;
-      width: 300px;
-      max-height: 400px;
-      display: none;
-      flex-direction: column;
+      position: relative; width: 100%; height: 100vh; display: flex;
+      align-items: center; justify-content: center; text-align: center;
       overflow: hidden;
-      z-index: 1100;
+      background: #0b0f24;
+      /* Subtle network lines background overlay (SVG or image) */
+      background-image: url('https://raw.githubusercontent.com/cyberalien/resvg-web/main/examples/images/network_lines_dark.svg');
+      background-repeat: no-repeat; background-position: center; background-size: cover;
     }
-    .chatbot-header {
-      background: #ff7b00;
-      padding: 10px;
-      cursor: pointer;
+    .hero-content {
+      z-index: 2; max-width: 700px; padding: 2rem;
     }
-    .chatbot-body {
-      padding: 10px;
-      flex: 1;
-      overflow-y: auto;
-      text-align: left;
+    .hero-title {
+      font-size: 3rem; font-weight: 700; line-height: 1.2;
+      background: linear-gradient(90deg, #63d0ff, #b954ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
     }
-    .chatbot-input {
-      border-top: 1px solid #555;
-      display: flex;
+    .hero-subtitle {
+      font-size: 1.2rem; margin-bottom: 2rem; color: #ccc;
     }
-    .chatbot-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
+    .hero-buttons .btn {
+      margin: 0.5rem; font-size: 1rem;
     }
-    .chatbot-input button {
-      padding: 10px;
-      background: #e66a00;
-      border: none;
-      cursor: pointer;
-      color: #fff;
+    /* UFO graphic (SVG shape) - placed absolutely in the hero */
+    .ufo {
+      position: absolute; right: 10%; top: 20%;
+      width: 200px; opacity: 0.8;
+      animation: floatUFO 3s ease-in-out infinite;
     }
-    
-    /* Roadmap with Scroll Animation */
-    .roadmap { position: relative; overflow: hidden; }
-    .roadmap ul { list-style: none; padding: 0; }
-    .roadmap li {
-      padding: 20px;
-      margin: 10px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.6s ease-out;
-    }
-    .roadmap li.visible { transform: translateY(0); opacity: 1; }
-    
-    /* Wallet Connection Button */
-    .wallet-btn { margin-top: 20px; }
-    
-    /* Holographic-Style Floating Panel */
-    .holo-panel {
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,123,0,0.5);
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px;
-      box-shadow: 0 0 15px rgba(255,123,0,0.5);
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
+    @keyframes floatUFO {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(15px); }
       100% { transform: translateY(0px); }
     }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav { flex-wrap: wrap; }
-      .dashboard .metric { width: 150px; }
+
+    /* ------------------------------
+       ABOUT SECTION
+    ------------------------------ */
+    .about .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
     }
-    
-    footer {
-      background: #111;
-      padding: 20px;
+    .about .feature-box {
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;
+      text-align: left; transition: background 0.3s;
+    }
+    .about .feature-box:hover { background: rgba(255,255,255,0.1); }
+    .feature-box h4 {
+      font-size: 1.1rem; margin-bottom: 0.5rem; color: #b06fff;
+    }
+    .feature-box p { font-size: 0.95rem; line-height: 1.5; color: #ddd; }
+
+    /* ------------------------------
+       FEATURES & BENEFITS
+    ------------------------------ */
+    .features-grid-6 {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;
+      text-align: center; transition: background 0.3s;
+    }
+    .feature-card:hover { background: rgba(255,255,255,0.1); }
+    .feature-icon {
+      font-size: 2rem; margin-bottom: 1rem; color: #b06fff;
+    }
+    .feature-card h4 {
+      margin-bottom: 0.5rem; color: #63d0ff;
+    }
+    .feature-card p { color: #ccc; font-size: 0.95rem; }
+
+    /* ------------------------------
+       HOW TO GET NEURA COIN
+    ------------------------------ */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    .step-box {
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;
       text-align: center;
+    }
+    .step-box h4 {
+      margin-bottom: 0.5rem; color: #63d0ff;
+    }
+    .step-box p { color: #ddd; font-size: 0.95rem; }
+
+    /* ------------------------------
+       AIRDROP SECTION
+    ------------------------------ */
+    .airdrop-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      max-width: 900px; margin: 2rem auto 0;
+    }
+    .airdrop-grid-left {
+      text-align: left;
+    }
+    .airdrop-grid-left ul {
+      margin-top: 1rem; line-height: 1.8; color: #ccc;
+    }
+    .airdrop-grid-right form {
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;
+    }
+    .airdrop-grid-right form input {
+      margin-bottom: 1rem; padding: 0.8rem; border-radius: 5px; border: none;
+      font-size: 1rem;
+    }
+    .airdrop-grid-right form .btn {
+      align-self: flex-start;
+    }
+
+    /* ------------------------------
+       ROADMAP SECTION
+    ------------------------------ */
+    .roadmap-container {
+      max-width: 800px; margin: 2rem auto 0; position: relative;
+    }
+    .timeline {
+      border-left: 2px solid #b06fff; padding-left: 2rem; position: relative;
+    }
+    .timeline::before {
+      content: ""; position: absolute; left: 0; width: 0; height: 100%;
+      border-left: 2px solid #b06fff; top: 0;
+    }
+    .timeline-item {
+      margin-bottom: 2rem; position: relative;
+    }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -11px; background: #b06fff;
+      width: 20px; height: 20px; border-radius: 50%; top: 0;
+    }
+    .timeline-item h4 {
+      margin-bottom: 0.5rem; color: #63d0ff;
+    }
+    .timeline-item p {
+      font-size: 0.95rem; color: #ccc; margin-bottom: 0.5rem;
+    }
+
+    /* ------------------------------
+       STAY CONNECTED SECTION
+    ------------------------------ */
+    .connect-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    .connect-box {
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;
+      text-align: center; transition: background 0.3s;
+    }
+    .connect-box:hover { background: rgba(255,255,255,0.1); }
+    .newsletter {
+      background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; text-align: center;
+    }
+    .newsletter input {
+      padding: 0.8rem; border: none; border-radius: 5px; margin-right: 0.5rem;
+      width: 60%; max-width: 250px;
+    }
+
+    /* ------------------------------
+       FINAL CTA
+    ------------------------------ */
+    .final-cta {
+      text-align: center; padding: 2rem; background: #0c102a;
+    }
+    .final-cta h3 {
+      font-size: 1.8rem; margin-bottom: 1rem;
+      background: linear-gradient(90deg, #63d0ff, #b954ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ------------------------------
+       FOOTER
+    ------------------------------ */
+    footer {
+      background: #0a0d23; text-align: center; padding: 1rem; color: #aaa;
+    }
+    footer a {
+      color: #b954ff; margin: 0 0.5rem;
+    }
+
+    /* ------------------------------
+       RESPONSIVE
+    ------------------------------ */
+    @media (max-width: 768px) {
+      .airdrop-grid {
+        grid-template-columns: 1fr; 
+      }
+      .ufo { display: none; } /* Hide UFO on smaller screens for simplicity */
+      .roadmap-container { margin: 1rem auto; }
+      nav { flex-wrap: wrap; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
+<!-- ==============================
+     NAVIGATION
+============================== -->
+<header>
   <nav>
-    <a href="#hero">Home</a>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#airdrop">Airdrop</a>
-    <a href="#roadmap">Roadmap</a>
-    <a href="#chatbot-toggle" id="chatbot-toggle">Support</a>
+    <div class="nav-brand">Neura Coin</div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#how-to-get">How to Get</a>
+      <a href="#airdrop">Airdrop</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#connect">Connect</a>
+    </div>
   </nav>
+</header>
 
-  <!-- Hero Section: 3D Animated Neura Coin and Rotating AI Brain -->
-  <header id="hero" class="hero">
-    <!-- 3D Animated Neura Coin -->
-    <canvas id="coin-canvas"></canvas>
-    <!-- Interactive AI Brain Visualization -->
-    <canvas id="brain-canvas" style="position:absolute; top:0; left:0;"></canvas>
-    <div class="hero-content">
-      <h1>Neura Coin - Futuristic AI-Powered Crypto</h1>
-      <p>Experience the revolution in mining with advanced AI & neural network visuals.</p>
-      <button class="btn" onclick="connectWallet()">Connect Wallet</button>
-      <div class="subscription">
-        <input type="email" id="email" placeholder="Enter your email for updates">
-        <button class="btn" onclick="subscribeEmail()">Subscribe</button>
+<!-- ==============================
+     HERO SECTION
+============================== -->
+<section class="hero" id="hero">
+  <!-- UFO Shape (SVG) -->
+  <svg class="ufo" viewBox="0 0 150 80">
+    <ellipse cx="75" cy="40" rx="50" ry="20" fill="#1b57ff"/>
+    <ellipse cx="75" cy="40" rx="30" ry="10" fill="#b954ff"/>
+    <circle cx="75" cy="40" r="5" fill="#fff"/>
+  </svg>
+
+  <div class="hero-content">
+    <h1 class="hero-title">The Future of AI-Powered Crypto Mining is Here!</h1>
+    <p class="hero-subtitle">Neura Coin (NEURA) – A next-gen cryptocurrency powered by AI-driven neural networks. Secure, scalable, and easy to mine.</p>
+    <div class="hero-buttons">
+      <a href="#how-to-get" class="btn"><i class="fas fa-rocket"></i> Get Started</a>
+      <a href="#airdrop" class="btn"><i class="fas fa-gift"></i> Join Airdrop</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     ABOUT SECTION
+============================== -->
+<section class="container" id="about">
+  <h2 class="section-title">About Neura Coin</h2>
+  <p class="section-subtitle">The AI Revolution in Cryptocurrency</p>
+  <p style="text-align:center; max-width:800px; margin:0 auto;">
+    Neura Coin is a decentralized cryptocurrency powered by AI-based Proof-of-Work using Feedforward Neural Networks (POW-FNN).
+  </p>
+
+  <div class="about">
+    <div class="features-grid">
+      <div class="feature-box">
+        <h4><i class="fas fa-brain"></i> AI-Powered Mining</h4>
+        <p>Smart mining with neural networks optimizing rewards.</p>
+      </div>
+      <div class="feature-box">
+        <h4><i class="fas fa-bolt"></i> Scalable & Fast</h4>
+        <p>Designed for high-speed transactions and minimal fees.</p>
+      </div>
+      <div class="feature-box">
+        <h4><i class="fas fa-leaf"></i> Eco-Friendly Mining</h4>
+        <p>Unlike traditional PoW, our AI-based system reduces energy consumption.</p>
+      </div>
+      <div class="feature-box">
+        <h4><i class="fas fa-shield-alt"></i> Secure & Decentralized</h4>
+        <p>Built on Polygon blockchain for reliability and transparency.</p>
       </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- AI-Powered Dashboard -->
-  <section id="dashboard">
-    <h2>AI-Powered Dashboard</h2>
-    <div class="dashboard">
-      <div class="metric holo-panel">
-        <h3>Live Price</h3>
-        <p id="live-price">$0.00</p>
-      </div>
-      <div class="metric holo-panel">
-        <h3>Mining Stats</h3>
-        <p id="mining-stats">0 TH/s</p>
-      </div>
-      <div class="metric holo-panel">
-        <h3>Total Supply</h3>
-        <p id="total-supply">0 NEURA</p>
-      </div>
+<!-- ==============================
+     FEATURES & BENEFITS
+============================== -->
+<section class="container" id="features">
+  <h2 class="section-title">Features & Benefits</h2>
+  <p class="section-subtitle">Why Choose Neura Coin?</p>
+
+  <div class="features-grid-6">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-brain"></i></div>
+      <h4>AI-Driven Proof-of-Work</h4>
+      <p>Intelligent mining that adapts and evolves.</p>
     </div>
-  </section>
-
-  <!-- Engaging Airdrop & Referral System -->
-  <section id="airdrop">
-    <h2>Airdrop & Referral</h2>
-    <form onsubmit="handleAirdrop(event)">
-      <input type="text" id="referral-code" placeholder="Enter Referral Code">
-      <button class="btn" type="submit">Claim Airdrop</button>
-    </form>
-  </section>
-
-  <!-- Dynamic Roadmap with Scroll Animation -->
-  <section id="roadmap" class="roadmap">
-    <h2>Dynamic Roadmap</h2>
-    <ul>
-      <li>Q2 2025 - Token Launch & Airdrop</li>
-      <li>Q3 2025 - Neura Coin App Release</li>
-      <li>Q4 2025 - Staking & DeFi Integration</li>
-      <li>2026 - Global Adoption & Metaverse Integration</li>
-    </ul>
-  </section>
-
-  <!-- Holographic-Style Floating Panel -->
-  <section>
-    <div class="holo-panel">
-      <h2>Exclusive Staking Rewards</h2>
-      <p>Stake NEURA for high APY rewards and unlock exclusive bonuses!</p>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-clock"></i></div>
+      <h4>24-Hour Auto-Mining</h4>
+      <p>Press 'Mine' once a day & earn continuously for 24 hours.</p>
     </div>
-  </section>
-
-  <!-- Interactive AI Chatbot Popup -->
-  <div class="chatbot" id="chatbot">
-    <div class="chatbot-header" onclick="toggleChatbot()">Support Chat (Click to Toggle)</div>
-    <div class="chatbot-body" id="chatbot-body">
-      <p>Hello! Ask me anything about Neura Coin.</p>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-balance-scale"></i></div>
+      <h4>Fair Token Distribution</h4>
+      <p>Ensuring fair mining rewards & anti-whale protection.</p>
     </div>
-    <div class="chatbot-input">
-      <input type="text" id="chatbot-input" placeholder="Type your message">
-      <button onclick="sendChat()">Send</button>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+      <h4>Seamless Transactions</h4>
+      <p>Ultra-fast, low-cost transactions across the network.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-gift"></i></div>
+      <h4>Referral & Rewards</h4>
+      <p>Earn more with our invite & earn system.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-globe"></i></div>
+      <h4>Community-Powered</h4>
+      <p>Your vote shapes Neura Coin’s future development.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==============================
+     HOW TO GET NEURA COIN
+============================== -->
+<section class="container" id="how-to-get">
+  <h2 class="section-title">How to Get Neura Coin?</h2>
+  <p class="section-subtitle">Start Mining in 3 Easy Steps!</p>
+
+  <div class="steps-grid">
+    <div class="step-box">
+      <h4><i class="fas fa-download"></i> Download the Neura Coin App</h4>
+      <p>(Coming soon!)</p>
+    </div>
+    <div class="step-box">
+      <h4><i class="fas fa-microchip"></i> Tap "Mine"</h4>
+      <p>Activate AI-powered mining with one click.</p>
+    </div>
+    <div class="step-box">
+      <h4><i class="fas fa-trophy"></i> Earn Rewards</h4>
+      <p>Get Neura Coins every 24 hours without any extra effort!</p>
     </div>
   </div>
 
-  <!-- AI-Powered Personalized UI Placeholder -->
-  <section id="personalized" class="holo-panel">
-    <h2>Welcome, [User]!</h2>
-    <p>This interface adapts to your preferences in real-time.</p>
-  </section>
+  <p style="text-align:center; margin-top:1.5rem; color:#ccc;">
+    Want more? Buy, trade, or stake NEURA on upcoming crypto exchanges & DeFi platforms!
+  </p>
+  <div style="text-align:center;">
+    <a href="#" class="btn">Join Waitlist</a>
+  </div>
+</section>
 
-  <!-- Live Blockchain Terminal Simulation -->
-  <section id="terminal" class="holo-panel" style="text-align:left;">
-    <h2>Live Blockchain Terminal</h2>
-    <div id="terminal-log" style="height:150px; overflow-y: auto; background: #000; padding: 10px; border-radius: 5px;"></div>
-  </section>
+<!-- ==============================
+     AIRDROP SECTION
+============================== -->
+<section class="container" id="airdrop">
+  <h2 class="section-title"><i class="fas fa-rocket"></i> Airdrop: Claim Free Neura Coins!</h2>
+  <p class="section-subtitle">Join Our Exclusive Airdrop & Be Part of the Future!</p>
+  <p style="text-align:center; color:#f8c146; font-weight:600;">Limited-Time Giveaway: Get FREE NEURA before the official launch!</p>
 
-  <footer>
-    <p>© 2025 Neura Coin. All Rights Reserved.</p>
-  </footer>
+  <div class="airdrop-grid">
+    <div class="airdrop-grid-left">
+      <h3>How to Participate?</h3>
+      <ul>
+        <li><i class="fas fa-check"></i> Follow us on X (Twitter) & Telegram</li>
+        <li><i class="fas fa-check"></i> Retweet & Tag 3 Friends</li>
+        <li><i class="fas fa-check"></i> Complete Simple Tasks (Like, Share, Subscribe, etc.)</li>
+        <li><i class="fas fa-check"></i> Submit Your Wallet Address & Receive NEURA Tokens!</li>
+      </ul>
+      <p style="margin-top:1rem; color:#ffc107; font-weight:600;">
+        <i class="fas fa-award"></i> Extra Rewards! Invite more friends & climb the Airdrop Leaderboard to unlock exclusive bonuses!
+      </p>
+    </div>
 
-  <script>
-    /* ---------- Three.js: 3D Animated Neura Coin ---------- */
-    let coinScene, coinCamera, coinRenderer, coinMesh;
-    function initCoin() {
-      const canvas = document.getElementById('coin-canvas');
-      coinScene = new THREE.Scene();
-      coinCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-      coinRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-      coinRenderer.setSize(window.innerWidth, window.innerHeight);
-      
-      const coinGeometry = new THREE.CylinderGeometry(2, 2, 0.3, 32);
-      const coinMaterial = new THREE.MeshBasicMaterial({ color: 0xff7b00 });
-      coinMesh = new THREE.Mesh(coinGeometry, coinMaterial);
-      coinScene.add(coinMesh);
-      
-      // Neon light for coin effect
-      const pointLight = new THREE.PointLight(0xff7b00, 2, 50);
-      pointLight.position.set(10,10,10);
-      coinScene.add(pointLight);
-      
-      coinCamera.position.z = 5;
-      animateCoin();
-    }
-    function animateCoin() {
-      requestAnimationFrame(animateCoin);
-      coinMesh.rotation.y += 0.01;
-      coinRenderer.render(coinScene, coinCamera);
-    }
-    initCoin();
+    <div class="airdrop-grid-right">
+      <form onsubmit="event.preventDefault(); alert('Airdrop Form Submitted!');">
+        <h4>Join the Airdrop Now!</h4>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Email Address" required />
+        <input type="text" placeholder="Wallet Address (ERC-20)" required />
+        <input type="text" placeholder="Twitter Username" />
+        <button class="btn" type="submit">Submit & Claim NEURA</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-    /* ---------- Three.js: 3D Rotating AI Brain Visualization ---------- */
-    let brainScene, brainCamera, brainRenderer, brainMesh;
-    function initBrain() {
-      const canvas = document.getElementById('brain-canvas');
-      brainScene = new THREE.Scene();
-      brainCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-      brainRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-      brainRenderer.setSize(window.innerWidth, window.innerHeight);
-      
-      // Create a simulated AI Brain with points
-      const geometry = new THREE.SphereGeometry(1.5, 32, 32);
-      const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.05 });
-      const particles = new THREE.BufferGeometry().setFromPoints(createParticlePositions(500));
-      brainMesh = new THREE.Points(particles, material);
-      brainScene.add(brainMesh);
-      
-      brainCamera.position.z = 3;
-      animateBrain();
-    }
-    function createParticlePositions(count) {
-      let positions = [];
-      for (let i = 0; i < count; i++) {
-        positions.push(new THREE.Vector3(
-          (Math.random()-0.5)*3,
-          (Math.random()-0.5)*3,
-          (Math.random()-0.5)*3
-        ));
-      }
-      return positions;
-    }
-    function animateBrain() {
-      requestAnimationFrame(animateBrain);
-      brainMesh.rotation.y += 0.005;
-      brainRenderer.render(brainScene, brainCamera);
-    }
-    initBrain();
+<!-- ==============================
+     ROADMAP SECTION
+============================== -->
+<section class="container" id="roadmap">
+  <h2 class="section-title">Roadmap & Future Plans</h2>
+  <p class="section-subtitle">See what's coming next for Neura Coin</p>
 
-    /* ---------- AI-Powered Dashboard Simulation ---------- */
-    function updateDashboard() {
-      document.getElementById('live-price').innerText = "$" + (Math.random() * 10 + 1).toFixed(2);
-      document.getElementById('mining-stats').innerText = (Math.random() * 50 + 1).toFixed(2) + " TH/s";
-      document.getElementById('total-supply').innerText = (Math.random() * 1000000 + 100000).toFixed(0) + " NEURA";
-    }
-    setInterval(updateDashboard, 3000);
+  <div class="roadmap-container">
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>Phase 1: Token Launch & Airdrop</h4>
+        <p>Initial token distribution</p>
+        <p>Community building</p>
+        <p>Website launch</p>
+        <p>Social media presence</p>
+        <p style="color:#63d0ff;">Current Phase</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 2: Neura Coin App Release</h4>
+        <p>Mobile app development</p>
+        <p>AI mining algorithm implementation</p>
+        <p>Security audits</p>
+        <p>Beta testing</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 3: Staking & DeFi Integration</h4>
+        <p>Staking mechanism</p>
+        <p>Yield farming</p>
+        <p>Liquidity pools</p>
+        <p>Partnerships with DeFi platforms</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Phase 4: Exchange Listings & Global Adoption</h4>
+        <p>Major exchange listings</p>
+        <p>Marketing campaigns</p>
+        <p>Enterprise partnerships</p>
+        <p>Ecosystem expansion</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="#" class="btn">View Full Roadmap</a>
+    </div>
+  </div>
+</section>
 
-    /* ---------- Email Subscription ---------- */
-    function subscribeEmail() {
-      const email = document.getElementById('email').value;
-      if(email) {
-        alert("Subscribed with: " + email);
-      } else {
-        alert("Please enter a valid email address.");
-      }
-    }
+<!-- ==============================
+     STAY CONNECTED SECTION
+============================== -->
+<section class="container" id="connect">
+  <h2 class="section-title">Stay Connected</h2>
+  <p class="section-subtitle">Join our community and never miss an update</p>
 
-    /* ---------- Airdrop & Referral Handler ---------- */
-    function handleAirdrop(e) {
-      e.preventDefault();
-      const referral = document.getElementById('referral-code').value;
-      if(referral) {
-        alert("Airdrop claimed using referral: " + referral);
-      } else {
-        alert("Airdrop claimed! (No referral provided)");
-      }
-    }
+  <div class="connect-grid">
+    <div class="connect-box">
+      <h4>Website</h4>
+      <p>www.neuracoin.com</p>
+    </div>
+    <div class="connect-box">
+      <h4>Twitter</h4>
+      <p>@NeuraCoin</p>
+    </div>
+    <div class="connect-box">
+      <h4>Telegram</h4>
+      <p>Join Community</p>
+    </div>
+    <div class="connect-box">
+      <h4>Discord</h4>
+      <p>NeuraCoin Official</p>
+    </div>
+  </div>
 
-    /* ---------- Wallet Connection (MetaMask/Trust Wallet) ---------- */
-    async function connectWallet() {
-      if(window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          alert("Wallet connected: " + accounts[0]);
-        } catch (error) {
-          console.error(error);
-          alert("Wallet connection failed.");
-        }
-      } else {
-        alert("No wallet detected. Please install MetaMask or use Trust Wallet.");
-      }
-    }
+  <div class="newsletter" style="margin-top:2rem;">
+    <h4>Subscribe to our newsletter</h4>
+    <p>Get updates & exclusive rewards directly to your inbox!</p>
+    <div style="margin-top:1rem;">
+      <input type="email" placeholder="Enter your email" />
+      <button class="btn" onclick="alert('Subscribed!')">Subscribe</button>
+    </div>
+  </div>
+</section>
 
-    /* ---------- Dynamic Roadmap Scroll Animation ---------- */
-    const roadmapItems = document.querySelectorAll('.roadmap li');
-    function revealRoadmap() {
-      roadmapItems.forEach(item => {
-        const rect = item.getBoundingClientRect();
-        if(rect.top < window.innerHeight) {
-          item.classList.add('visible');
-        }
-      });
-    }
-    window.addEventListener('scroll', revealRoadmap);
-    revealRoadmap();
+<!-- ==============================
+     FINAL CTA
+============================== -->
+<div class="final-cta">
+  <h3>Join the Future of AI Crypto Mining!</h3>
+  <p style="color:#ccc;">Be part of the revolution that's changing the way cryptocurrency is mined and used.</p>
+  <div style="margin-top:1rem;">
+    <a href="#how-to-get" class="btn"><i class="fas fa-play"></i> Start Mining Now</a>
+    <a href="#airdrop" class="btn"><i class="fas fa-gift"></i> Claim Airdrop</a>
+  </div>
+</div>
 
-    /* ---------- Chatbot (Placeholder for GPT API) ---------- */
-    const chatbot = document.getElementById('chatbot');
-    const chatbotToggle = document.getElementById('chatbot-toggle');
-    chatbotToggle.addEventListener('click', toggleChatbot);
-    function toggleChatbot() {
-      chatbot.style.display = (chatbot.style.display === "flex") ? "none" : "flex";
-    }
-    function sendChat() {
-      const input = document.getElementById('chatbot-input').value;
-      if(input) {
-        const response = "Placeholder answer for: " + input;
-        const chatbotBody = document.getElementById('chatbot-body');
-        const msgElem = document.createElement('p');
-        msgElem.innerText = "You: " + input + "\nBot: " + response;
-        chatbotBody.appendChild(msgElem);
-        document.getElementById('chatbot-input').value = "";
-      }
-    }
+<!-- ==============================
+     FOOTER
+============================== -->
+<footer>
+  <p>© 2025 Neura Coin. All rights reserved.</p>
+  <p>
+    <a href="#">Privacy Policy</a> | 
+    <a href="#">Terms of Service</a> | 
+    <a href="#">Contact</a>
+  </p>
+</footer>
 
-    /* ---------- Live Blockchain Terminal Simulation ---------- */
-    function logTerminal(message) {
-      const terminalLog = document.getElementById('terminal-log');
-      const logEntry = document.createElement('p');
-      logEntry.innerText = message;
-      terminalLog.appendChild(logEntry);
-      terminalLog.scrollTop = terminalLog.scrollHeight;
-    }
-    setInterval(() => {
-      logTerminal("TX " + Math.random().toString(36).substring(2,10) + " confirmed");
-    }, 5000);
-
-    /* ---------- AI-Generated Personalized UI (Placeholder) ---------- */
-    function personalizeUI() {
-      const hour = new Date().getHours();
-      document.body.style.backgroundColor = (hour < 12) ? "#0a0a0a" : "#050505";
-    }
-    personalizeUI();
-
-    /* ---------- Adjust Canvases on Resize ---------- */
-    window.addEventListener('resize', function() {
-      coinRenderer.setSize(window.innerWidth, window.innerHeight);
-      coinCamera.aspect = window.innerWidth/window.innerHeight;
-      coinCamera.updateProjectionMatrix();
-
-      brainRenderer.setSize(window.innerWidth, window.innerHeight);
-      brainCamera.aspect = window.innerWidth/window.innerHeight;
-      brainCamera.updateProjectionMatrix();
-    });
-  </script>
 </body>
 </html>
